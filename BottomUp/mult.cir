@@ -1,0 +1,42 @@
+* Teste para mult_teste.spi
+.include mult4_roteado_cougar.spi
+
+* Conectando a alimentação
+vdd 261 232 1.8V
+vss 232 0 0.0V
+
+* INTERF a0 a1 a2 a3 b0 b1 b2 b3 p0 p1 p2 p3 p4 p5 p6 p7 vdd vss 
+
+X0 129 159 155 164 95 165 162 157 100 44 19 31 152 226 27 36 261 232 mult4_roteado
+
+
+* Definindo os valores de entrada como pulsos
+v1 129 232 pulse(0 1.8V 4ns 1ps 1ps 4ns 8ns)
+v2 159 232 pulse(0 1.8V 8ns 1ps 1ps 8ns 16ns)
+v3 155 232 pulse(0 1.8V 16ns 1ps 1ps 16ns 32ns)
+v4 164 232 pulse(0 1.8V 32ns 1ps 1ps 32ns 64ns)
+v5 95 232 pulse(0 1.8V 64ns 1ps 1ps 64ns 128ns)
+v6 165 232 pulse(0 1.8V 128ns 1ps 1ps 128ns 256ns)
+v7 162 232 pulse(0 1.8V 256ns 1ps 1ps 256ns 512ns)
+v8 157 232 pulse(0 1.8V 512ns 1ps 1ps 512ns 1024ns)
+
+
+* Definindo os modelos de transistores
+.model tp pmos level=54
+.model tn nmos level=54
+
+* Definindo a análise
+.tran 0.01n 700n
+
+* Comandos de plotagem
+.control
+	run
+	plot v(129) v(159)+3 v(155)+6 v(164)+9 v(95)+12 v(165)+15 v(162)+18 v(157)+21 v(100)+24 v(44)+27 v(19)+30 v(31)+33 v(152)+36 v(226)+39 v(27)+42 v(36)+45
+
+	plot v(129) v(159)+3 v(155)+6 v(164)+9
+	plot v(95) v(165)+3 v(162)+6 v(157)+9
+	plot v(100) v(44)+3 v(19)+6 v(31)+9 v(152)+12 v(226)+15 v(27)+18 v(36)+21
+.endc
+
+
+.end
