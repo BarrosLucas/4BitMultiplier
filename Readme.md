@@ -1,122 +1,129 @@
-🎢 Guia Completo para Testar Seus Circuitos: Do Zero à Simulação! 🚀
-Este guia te levará numa jornada emocionante, desde a criação do seu circuito até a análise dos resultados da simulação! Prepare-se para dominar as duas abordagens: Bottom-Up (começando pelas portas lógicas) e Top-Down (começando pela descrição do hardware).
+# 🎢 Complete Guide to Testing Your Circuits: From Zero to Simulation! 🚀
 
-🧰 Abordagem Bottom-Up: Construindo Bloco por Bloco 🧱
-Objetivo: Criar um multiplicador de 4 bits com saída de 8 bits e testá-lo usando o SpiceOpus.
+This guide will take you on an exciting journey, from creating your circuit to analyzing the simulation results! Get ready to master two approaches: Bottom-Up (starting with logic gates) and Top-Down (starting with the hardware description).
 
-Passo-a-Passo:
+## 🧰 Bottom-Up Approach: Building Block by Block 🧱
+**Objective:** Create a 4-bit multiplier with an 8-bit output and test it using SpiceOpus.
 
-🎨 Criando o Circuito no Logisim: Comece desenhando seu multiplicador no Logisim, usando portas lógicas e conexões.
+**Step-by-Step:**
 
-💻 Escrevendo o Código Genlib: Traduza seu circuito do Logisim para código usando a biblioteca Genlib.
+1. 📄 **Generating the VST File:** This file is essential to visualize the schematic of your circuit. Use the commands:
 
-📄 Gerando o Arquivo VST: Este arquivo é essencial para visualizar o esquema do seu circuito. Use os comandos:
-
-Bash
-
-Insert code
+```
 $ export MBK_IN_LO=spi
-    $ export MBK_OUT_LO=spi
-    $ genlib -v nome_genlib
-🔍 Visualizando o Esquema: Veja como seu circuito se conecta usando o comando:
-Bash
+$ export MBK_OUT_LO=spi
+$ genlib -v nome_genlib
+```
 
-Insert code
+2. 🔍 **Viewing the Schematic:** See how your circuit connects using the command:
+
+```
 $ xsch -l nome
-🗺️ Criando o Layout Físico: Organize as células do seu circuito no espaço físico com o comando:
-Bash
+```
 
-Insert code
+3. 🗺️ **Creating the Physical Layout:** Arrange the cells of your circuit in physical space with the command:
+
+```
 $ alliance-ocp nome nome_posicionado
-🔄 Roteando as Células: Conecte as células do seu circuito usando o Nero:
-Bash
+```
 
-Insert code
+4. 🔄 **Routing the Cells:** Connect the cells of your circuit using Nero:
+
+```
 $ nero -p nome_posicionado nome nome_roteado
-⚙️ Extraindo Parâmetros do Spice: Obtenha os parâmetros para simulação usando o Cougar:
-Bash
+```
 
-Insert code
+5. ⚙️ **Extracting Spice Parameters:** Obtain the parameters for simulation using Cougar:
+
+```
 $ cougar -t -ac nome_ap
-📄 Criando o Arquivo .cir: Crie o arquivo de netlists, importando o arquivo .spi.
+```
 
-⚡️ Simulando no SpiceOpus: Simule seu circuito e gere gráficos!
+6. 📄 **Creating the .cir File:** Create the netlist file by importing the .spi file.
 
-Bash
+7. ⚡️ **Simulating in SpiceOpus:** SSimulate your circuit and generate graphs!
 
-Insert code
+```
 $ spiceopus
-    $ nomeDoCircuito.cir
-📈 Analisando os Resultados: Examine os gráficos gerados pelo SpiceOpus para entender o comportamento do seu circuito.
-🏗️ Abordagem Top-Down: Do Geral aos Detalhes 🗺️
-Objetivo: Criar um multiplicador de 4 bits usando VHDL e testá-lo com o Asimut.
+$ nomeDoCircuito.cir
+```
 
-Passo-a-Passo:
+## 🏗️ Top-Down Approach: From General to Details 🗺️
+**Objective:** Create a 4-bit multiplier using VHDL and test it with Asimut.
 
-📝 Escrevendo o Código VHDL: Descreva o comportamento do seu multiplicador em VHDL.
+**Step-by-Step:**
 
-🧪 Criando o Arquivo de Testes: Defina as entradas e saídas esperadas para testar seu multiplicador.
+1. ⚙️ **Generating the .vbe File:** Generating the .vbe File:
 
-⚙️ Gerando o Arquivo .vbe: Use o Vasy para criar o arquivo .vbe:
-
-Bash
-
-Insert code
+```
 $ vasy -a -I vhdl -a mult4
-💪 Otimizando com o Boom: Reduza o número de portas lógicas do seu circuito:
-Bash
+```
 
-Insert code
+2. 💪 **Optimizing with Boom:** Reduce the number of logic gates in your circuit:
+
+```
 $ boom -A -d 100 mult4 mult4_boom
-✅ Verificando com o Proof: Certifique-se de que a lógica do seu circuito não foi alterada:
-Bash
+```
 
-Insert code
+3. ✅ **Verifying with Proof:** Make sure that the logic of your circuit has not been altered:
+
+```
 $ proof -a -d mult4 mult4_boom
-📄 Gerando o VST: Crie o arquivo VST a partir do .vbe usando o Boog:
-Bash
+```
 
-Insert code
+4. 📄 **Generating the VST:** Create the VST file from the .vbe using Boog:
+
+```
 $ boog mult4_boom mult4_boog
-🚀 Otimizando Fisicamente com o Loon: Otimize o layout físico do seu circuito:
-Bash
+```
 
-Insert code
+5. 🚀 **Physically Optimizing with Loon:** Optimize the physical layout of your circuit:
+
+```
 $ loon -m 4 mult4_boog mult4_bbl
-⚙️ Gerando Entradas de Teste: Use o Alliance-Genpat para criar entradas de teste a partir do arquivo .C:
-Bash
+```
 
-Insert code
+6. ⚙️ **Generating Test Inputs:** Use Alliance-Genpat to create test inputs from the .C file:
+
+```
 $ alliance-genpat -v pattern_mult4
-🔍 Visualizando os Testes: Veja as entradas de teste usando o XPat:
-Bash
+```
 
-Insert code
+7. 🔍 **Viewing the Tests:** View the test inputs using XPat:
+
+```
 $ xpat -l pat_multi.pat
-🗺️ Criando o Layout Físico: Organize as células do seu circuito no espaço físico:
-Bash
+```
 
-Insert code
+8. 🗺️ **Creating the Physical Layout:** Arrange the cells of your circuit in physical space:
+
+```
 $ alliance-ocp mult4_bbl mult4_ocp
-🔄 Roteando as Células: Conecte as células do seu circuito usando o Nero:
-Bash
+```
 
-Insert code
+9. 🔄 **Routing the Cells:** Connect the cells of your circuit using Nero:
+
+```
 $ nero -p mult4_ocp mult4_bbl mult4_nero
-🔄 Mudando a Variável de Ambiente: Configure a variável de ambiente:
-Bash
+```
 
-Insert code
+10. 🔄 **Changing the Environment Variable:** Set the environment variable:
+
+```
 $ export MBK_OUT_LO=vst
-⚙️ Extraindo Parâmetros do Spice: Obtenha os parâmetros para simulação:
-Bash
+```
 
-Insert code
+11. ⚙️ **Extracting Spice Parameters:** Obtain the parameters for simulation:
+
+```
 $ cougar -t -ac mult4_nero mult4_cougar
-🧪 Testando com o Asimut: Execute testes exaustivos no seu circuito:
-Bash
+```
 
-Insert code
+12. 🧪 **Testing with Asimut:** Run exhaustive tests on your circuit:
+
+```
 $ asimut mult4_cougar pat_multi pat_mult_result
-📝 Analisando os Resultados: Examine o arquivo de testes para entender o comportamento do seu circuito.
-🎉 Parabéns! Você concluiu o guia e está pronto para criar e testar seus próprios circuitos! 🎉
+```
+
+
+🎉 Congratulations! You have completed the guide and are ready to create and test your own circuits!  🎉
